@@ -16,28 +16,45 @@ enum DestinationSearchOptions {
 struct DestinationSearchView: View {
     @Binding var show: Bool
     @State private var destination = ""
-    @State private var selectedOptions: DestinationSearchOptions = .dates
+    @State private var selectedOptions: DestinationSearchOptions = .guests
     @State private var fromDate = Date()
     @State private var toDate = Date()
+    @State private var adults = 0;
     
     var body: some View {
-
-
+        
+        
         VStack {
             
-            
-            Button {
-                withAnimation(.snappy) {
-                    show.toggle()
+            HStack {
+                Button {
+                    withAnimation(.snappy) {
+                        show.toggle()
+                    }
+                    
+                } label: {
+                    Image(systemName: "xmark.circle")
+                        .imageScale(.large)
+                        .foregroundStyle(.black
+                        )
                 }
                 
-            } label: {
-                Image(systemName: "xmark.circle")
-                    .imageScale(.large)
-                    .foregroundStyle(.black
-                    )
+                Spacer()
+                
+                if !destination.isEmpty {
+                    Button("Clear") {
+                        destination = ""
+                    }
+                    .foregroundStyle(.black)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                }
+                
             }
-  
+            .padding()
+            
+            
+            
             VStack {
                 if selectedOptions == .location {
                     VStack(alignment: .leading) {
@@ -68,12 +85,8 @@ struct DestinationSearchView: View {
                         }
                 }
             }
-            .padding()
+            .modifier(CollapsibleDestinationViewModifier())
             .frame(height: selectedOptions == .location ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOptions = .location
@@ -87,6 +100,7 @@ struct DestinationSearchView: View {
                         Text("When's your trip?")
                             .font(.title2)
                             .fontWeight(.semibold)
+                            .foregroundStyle(.black)
                         Spacer()
                         DatePicker("From", selection: $fromDate, displayedComponents: .date)
                         Divider()
@@ -99,12 +113,8 @@ struct DestinationSearchView: View {
                     CollapsedPickerView(title: "Who", description: "Add guests")
                 }
             }
-            .padding()
+            .modifier(CollapsibleDestinationViewModifier())
             .frame(height: selectedOptions == .dates ? 160 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOptions = .dates
@@ -115,25 +125,37 @@ struct DestinationSearchView: View {
             
             VStack {
                 if selectedOptions == .guests {
-                    HStack {
-                        Text("Show expanded view")
-                        Spacer()
+                    VStack {
+                        Text("Who's coming?")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                        
+                        
+                        Stepper {
+                            Text("\(adults) Adults")
+                        } onIncrement: {
+                            adults += 1
+                        } onDecrement: {
+                            if adults == 0 {
+                                return
+                            } else {
+                                adults -= 1
+                            }
+                            
+                        }
                     }
                 } else {
                     CollapsedPickerView(title: "Who", description: "Add guestss")
                 }
             }
-            .padding()
+            .modifier(CollapsibleDestinationViewModifier())
             .frame(height: selectedOptions == .guests ? 120 : 64)
-            .background(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding()
-            .shadow(radius: 10)
             .onTapGesture {
                 withAnimation(.snappy) {
                     selectedOptions = .guests
                 }
             }
+            Spacer()
         }
     }
     
@@ -143,6 +165,17 @@ struct DestinationSearchView: View {
     DestinationSearchView(show: .constant(false))
 }
 
+
+struct CollapsibleDestinationViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding()
+            .shadow(radius: 10)
+    }
+}
 
 struct CollapsedPickerView: View {
     let title: String

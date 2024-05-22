@@ -27,7 +27,7 @@ struct ExploreView: View {
                         ForEach(0 ... 10, id: \.self) { listing in
                             NavigationLink(value: listing) {
                                 ListingItemView()
-                                    .frame(height: 400)
+                                    .frame(height: 410)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }

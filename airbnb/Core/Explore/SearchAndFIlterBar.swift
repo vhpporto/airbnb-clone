@@ -34,7 +34,7 @@ struct SearchAndFilterBar: View {
             Capsule()
                 .stroke(lineWidth: 0.5)
                 .foregroundStyle(Color(.systemGray4))
-                .shadow(color: .black.opacity(0.4), radius:2)
+                .shadow(color: .black.opacity(0.9), radius: 6)
         }
         .padding()
         

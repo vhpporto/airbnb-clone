@@ -12,13 +12,15 @@ struct ListingItemView: View {
     var body: some View {
         VStack(spacing: 8) {
             ListingImageCarouselView()
-            .frame(height: 320)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+                .frame(height: 320)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             
             HStack(alignment: .top) {
                 VStack(alignment: .leading) {
                     Text("Miami, Florida")
-                        .foregroundStyle(.black)
+                        .tint(.primary)
+                        .fontWeight(.semibold)
+                        .font(.headline)
                     
                     Text("12 mi away")
                         .foregroundStyle(.gray)
@@ -29,9 +31,11 @@ struct ListingItemView: View {
                     HStack(spacing: 5) {
                         Text("$567")
                             .fontWeight(.semibold)
-                            .foregroundStyle(.black)
+                            .tint(.primary)
+                        
                         Text("night")
-                            .foregroundStyle(.black)
+                            .tint(.primary)
+                        
                     }
                     
                     
@@ -41,12 +45,12 @@ struct ListingItemView: View {
                 
                 HStack {
                     Image(systemName: "star.fill")
-                        .foregroundStyle(.black)
+                        .tint(.primary)
                     Text("4.8")
-                        .foregroundStyle(.black)
+                        .tint(.primary)
                 }
             }
-            .font(.footnote)
+            .font(.subheadline)
         }
     }
 }

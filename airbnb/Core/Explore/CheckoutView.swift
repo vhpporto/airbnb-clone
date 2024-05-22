@@ -38,7 +38,6 @@ struct CheckoutView: View {
                 }
         }
         .padding()
-
         .frame(maxWidth: .infinity)
     }
 }
