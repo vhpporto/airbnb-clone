@@ -10,13 +10,14 @@ import MapKit
 
 struct ListingDetailView: View {
     var bedImages = ["img-5", "img-6"]
+    var listing: Listing
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             ScrollView {
                 ZStack(alignment: .topLeading) {
-                    ListingImageCarouselView()
+                    ListingImageCarouselView(listing: listing)
                         .frame(height: 320)
                     
                     Button {
@@ -29,26 +30,26 @@ struct ListingDetailView: View {
                                     .fill(.white)
                                     .frame(width: 32, height: 32)
                             }
-                            .padding(32)
+                            .position(x: 40, y: 65)
                     }
 
                 }
                 
                
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Miami Villa")
+                    Text("\(listing.title)")
                         .fontWeight(.semibold)
                         .font(.title)
                     
                     HStack {
                         Image(systemName: "star.fill")
-                        Text("4.8")
+                        Text(String(format: "%.2f", listing.rating))
                         Text("-")
                         Text("28 reviews").fontWeight(.semibold).underline()
                         
                     }
                     .font(.subheadline)
-                    Text("Miami, Floria").font(.subheadline)
+                    Text("\(listing.city), \(listing.state)").font(.subheadline)
                     
                     
                 }
@@ -62,14 +63,14 @@ struct ListingDetailView: View {
                         Text("Entire villa hosted by")
                             .fontWeight(.semibold)
                             .font(.title3)
-                        Text("John Smith")
+                        Text("\(listing.ownerName)")
                             .fontWeight(.semibold)
                             .font(.title3)
                         HStack {
-                            Text("4 guests -")
-                            Text("4 badrooms -")
-                            Text("4 beds -")
-                            Text("4 baths")
+                            Text("\(listing.numberOFGuests) guests -")
+                            Text("\(listing.numberOfBathrooms) bathrooms -")
+                            Text("\(listing.numberOfBeds) beds -")
+                            Text("\(listing.numberOfBedrooms) badrooms")
                         }
                         .font(.caption2)
                     }
@@ -201,5 +202,5 @@ struct ListingDetailView: View {
 }
 
 #Preview {
-    ListingDetailView()
+    ListingDetailView(listing: DeveloperPreview.shared.listings[0])
 }
